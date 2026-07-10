@@ -1,7 +1,9 @@
-export default function Home() {
+const page = () => {
   return (
     <div className="w-full min-h-[95.5vh] border flex justify-center items-center border-gray-300 bg-[#F5FFFC]">
-        To get started, edit the page.tsx file.
+        Report page
     </div>
-  );
+  )
 }
+
+export default page
