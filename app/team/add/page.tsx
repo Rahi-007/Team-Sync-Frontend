@@ -1,8 +1,23 @@
+import ComingSoonCard from "@/components/layouts/ComingSoon"
+import Container from "@/components/layouts/Container"
+import PageHeader from "@/components/layouts/PageHeader"
+
 const page = () => {
   return (
-    <div className="w-full min-h-[95.5vh] border flex justify-center items-center border-gray-300 bg-[#F5FFFC]">
-        Add New Team page
-    </div>
+    <Container>
+      <PageHeader
+        title="Add New Team"
+        description="Create a team and add members to collaborate effectively."
+        breadcrumbs={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Team", href: "/team" },
+          { label: "Add Team" }
+        ]}
+      />
+      <div className="p-6">
+        <ComingSoonCard />
+      </div>
+    </Container>
   )
 }
 

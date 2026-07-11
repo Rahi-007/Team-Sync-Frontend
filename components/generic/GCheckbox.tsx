@@ -1,29 +1,49 @@
 "use client";
 
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { Checkbox } from "../ui/checkbox";
-import { Control, FieldValues, Path } from "react-hook-form";
-import { FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Label } from "../ui/label";
 
-type ICheckboxProps<T extends FieldValues> = {
+type IFormCheckboxProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label?: string;
   disabled?: boolean;
 };
 
-function FormCheckbox<T extends FieldValues>({ control, name, label, disabled }: ICheckboxProps<T>) {
+function FormCheckbox<T extends FieldValues>({
+  control,
+  name,
+  label,
+  disabled,
+}: IFormCheckboxProps<T>) {
   return (
-    <FormField
+    <Controller
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem className="flex items-center gap-2 space-y-0">
-          <Checkbox checked={!!field.value} onCheckedChange={field.onChange} disabled={disabled} id={name} />
+      render={({ field, fieldState }) => (
+        <div className="space-y-1">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id={name}
+              checked={!!field.value}
+              onCheckedChange={field.onChange}
+              disabled={disabled}
+            />
 
-          {label && <FormLabel htmlFor={name}>{label}</FormLabel>}
+            {label && (
+              <Label htmlFor={name} className="cursor-pointer">
+                {label}
+              </Label>
+            )}
+          </div>
 
-          <FormMessage />
-        </FormItem>
+          {fieldState.error && (
+            <p className="text-xs text-red-500">
+              {fieldState.error.message}
+            </p>
+          )}
+        </div>
       )}
     />
   );

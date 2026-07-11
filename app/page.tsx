@@ -1,5 +1,7 @@
 "use client";
 
+import ComingSoonCard from "@/components/layouts/ComingSoon";
+import Container from "@/components/layouts/Container";
 import AccessForm from "@/components/layouts/LoginForm";
 import { useState } from "react";
 
@@ -10,9 +12,11 @@ export default function Home() {
     return <AccessForm />;
   } else {
     return (
-      <div className="w-full min-h-[92.4vh] border flex justify-center items-center border-gray-300 bg-[#F5FFFC]">
-        To get started, edit the page.tsx file.
-      </div>
+      <Container>
+        <div className="p-6">
+          <ComingSoonCard />
+        </div>
+      </Container>
     );
   }
 }

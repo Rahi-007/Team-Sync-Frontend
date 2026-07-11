@@ -1,101 +1,80 @@
 "use client";
 
-import type { ReactElement } from "react";
-import { Loader2 } from "lucide-react";
-import { Control, FieldValues, Path } from "react-hook-form";
-import { FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
-import { cn } from "@/lib/utils";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
-type Option = {
+type SelectOption = {
   label: string;
   value: string;
 };
 
-type ISelectProps<T extends FieldValues> = {
+type IFormSelectProps<T extends FieldValues> = {
   control: Control<T>;
   name: Path<T>;
   label?: string;
-  options: Option[];
   placeholder?: string;
+  options: SelectOption[];
   disabled?: boolean;
   required?: boolean;
-  valueAsNumber?: boolean;
-  loading?: boolean;
-  loadingPlaceholder?: string;
 };
 
-function FormSelectBody<T extends FieldValues>({
+function FormSelect<T extends FieldValues>({
   control,
   name,
   label,
-  options,
   placeholder = "Select an option",
+  options,
   disabled,
   required,
-  valueAsNumber = false,
-  loading = false,
-  loadingPlaceholder = "Loading...",
-}: ISelectProps<T>): ReactElement {
-  const isBusy = loading || disabled;
-
+}: IFormSelectProps<T>) {
   return (
-    <FormField
+    <Controller
       control={control}
       name={name}
-      render={({ field }) => (
-        <FormItem>
+      render={({ field, fieldState }) => (
+        <div className="relative mb-2 grid gap-0.5">
           {label && (
-            <FormLabel>
-              {label} {required && <span className="text-red-500">*</span>}
-            </FormLabel>
+            <Label htmlFor={name}>
+              {label}
+              {required && <span className="text-red-500"> *</span>}
+            </Label>
           )}
 
           <Select
-            onValueChange={valueAsNumber ? v => field.onChange(Number(v)) : field.onChange}
-            // value={
-            //   loading
-            //     ? undefined
-            //     : valueAsNumber
-            //       ? typeof field.value === "number" && field.value > 0
-            //         ? String(field.value)
-            //         : undefined
-            //       : field.value != null && field.value !== ""
-            //         ? String(field.value)
-            //         : undefined
-            // }
-            value={field.value !== undefined && field.value !== null && field.value !== "" ? String(field.value) : undefined}
-            disabled={isBusy}
+            value={field.value ?? ""}
+            onValueChange={field.onChange}
+            disabled={disabled}
           >
-            <SelectTrigger className={cn("w-full min-w-48", loading && "cursor-wait text-muted-foreground")}>
-              {loading ? (
-                <span className="flex items-center gap-2">
-                  <Loader2 className="size-4 shrink-0 animate-spin" aria-hidden />
-                  <span>{loadingPlaceholder}</span>
-                </span>
-              ) : (
-                <SelectValue placeholder={placeholder} />
-              )}
+            <SelectTrigger id={name} className="w-full">
+              <SelectValue placeholder={placeholder} />
             </SelectTrigger>
 
             <SelectContent>
-              {options.map(opt => (
-                <SelectItem key={opt.value} value={opt.value}>
-                  {opt.label}
+              {options.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
 
-          <FormMessage />
-        </FormItem>
+          {fieldState.error && (
+            <p className="text-xs text-red-500">
+              {fieldState.error.message}
+            </p>
+          )}
+        </div>
       )}
     />
   );
 }
-
-/** Trailing comma in `<T …,>` is required in `.tsx` so `<` is not parsed as JSX. */
-export const FormSelect = <T extends FieldValues>(props: ISelectProps<T>): ReactElement => FormSelectBody(props);
 
 const GSelect = {
   Form: FormSelect,

@@ -1,8 +1,22 @@
+import ComingSoonCard from "@/components/layouts/ComingSoon"
+import Container from "@/components/layouts/Container"
+import PageHeader from "@/components/layouts/PageHeader"
+
 const page = () => {
   return (
-    <div className="w-full min-h-[95.5vh] border flex justify-center items-center border-gray-300 bg-[#F5FFFC]">
-        Project page
-    </div>
+    <Container>
+      <PageHeader
+        title="All Projects"
+        description="Manage project information, status, and assignments."
+        breadcrumbs={[
+          { label: "Dashboard", href: "/dashboard" },
+          { label: "Project" }
+        ]}
+      />
+      <div className="p-6">
+        <ComingSoonCard />
+      </div>
+    </Container>
   )
 }
 

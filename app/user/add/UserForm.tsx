@@ -8,6 +8,8 @@ import { Gender } from "@/config/enum";
 import { useAddUserMutation } from "@/service/user.service";
 import { Button } from "@/components/ui/button";
 import GInput from "@/components/generic/GInput";
+import GDatePicker from "@/components/generic/GDatePicker";
+import GSelect from "@/components/generic/GSelect";
 
 const UserSchema = z.object({
     firstName: z.string().min(3, { message: "First name must be at least 3 characters" }),
@@ -62,7 +64,7 @@ const UserForm = () => {
             className="rounded-2xl border bg-white shadow-sm"
         >
             <div className="border-b px-8 py-6">
-                <h2 className="text-2xl font-bold">Add New User</h2>
+                <h2 className="text-2xl font-bold">User Form</h2>
                 <p className="mt-1 text-sm text-muted-foreground">
                     Create a new user account for your organization.
                 </p>
@@ -98,6 +100,38 @@ const UserForm = () => {
                     control={form.control}
                     placeholder="••••••••"
                 />
+
+                <GInput.Form
+                    name="rfId"
+                    label="RFID"
+                    control={form.control}
+                    placeholder="Employee Id"
+                />
+
+                <GInput.Form
+                    name="address"
+                    label="Address"
+                    control={form.control}
+                    placeholder="Present Address"
+                />
+{/* 
+                <GSelect.Form
+                    control={form.control}
+                    name="gender"
+                    label="Gender"
+                    placeholder="Select Gender"
+                    options={[
+                        { label: "Male", value: Gender.Male },
+                        { label: "Female", value: Gender.Male }
+                    ]}
+                />
+
+                <GDatePicker.Form
+                    control={form.control}
+                    name="dateOfBirth"
+                    label="Date of Birth"
+                    placeholder="Select date"
+                /> */}
 
             </div>
 
