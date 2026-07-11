@@ -14,7 +14,6 @@ TeamSync is a modern team management software. This is frontend Repo
 - **Zod** & **@hookform/resolvers**
 - **Lucide React**
 - **Motion** (Animations)
-- **Axios** (HTTP Client)
 - **React Hot Toast**
 - **Class Variance Authority (CVA)**
 - **clsx** & **tailwind-merge**

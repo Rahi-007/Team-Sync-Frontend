@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Sans, Playfair_Display, Salsa } from "next/font/google";
 import { cn } from "@/lib/utils";
+import ProviderConfig from "@/provider/providerConfig";
+import Root from "./Root";
 import "./globals.css";
-import Header from "@/components/layouts/Header";
-import SideBar from "@/components/layouts/SideBar";
 
 const salsa = Salsa({
   variable: "--font-salsa",
@@ -47,13 +47,9 @@ export default function RootLayout({ children }: Readonly<IProps>) {
       className={cn("h-full", "antialiased", salsa.variable, geistSans.variable, geistMono.variable, "font-sans", notoSans.variable, playfairDisplayHeading.variable)}
     >
       <body className="min-h-full">
-        <Header />
-        <div className="flex">
-          <SideBar />
-          <main className="flex-1">
-            {children}
-          </main>
-        </div>
+        <ProviderConfig>
+          <Root>{children}</Root>
+        </ProviderConfig>
       </body>
     </html>
   );
