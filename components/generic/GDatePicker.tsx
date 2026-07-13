@@ -4,7 +4,6 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
 
-import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Label } from "../ui/label";
 import {
@@ -36,52 +35,65 @@ function FormDatePicker<T extends FieldValues>({
     <Controller
       control={control}
       name={name}
-      render={({ field, fieldState }) => (
-        <div className="grid gap-0.5 mb-2">
-          {label && (
-            <Label htmlFor={name}>
-              {label}
-              {required && <span className="text-red-500">*</span>}
-            </Label>
-          )}
+      render={({ field, fieldState }) => {
+        const dateValue = field.value ? new Date(field.value) : undefined;
+        const isValidDate = dateValue && !isNaN(dateValue.getTime());
 
-          <Popover>
-            <PopoverTrigger>
-              <Button
-                id={name}
-                type="button"
-                variant="outline"
-                disabled={disabled}
-                className={cn(
-                  "w-full justify-between text-left font-normal",
-                  !field.value && "text-muted-foreground"
-                )}
+        return (
+          <div className="grid gap-1 mb-4 w-full">
+            {/* Label */}
+            {label && (
+              <Label htmlFor={name} className="text-sm font-medium text-gray-700">
+                {label}
+                {required && <span className="text-red-500"> *</span>}
+              </Label>
+            )}
+
+            {/* Base UI Popover */}
+            <Popover>
+              <PopoverTrigger
+                render={
+                  <button
+                    id={name}
+                    type="button"
+                    disabled={disabled}
+                    className={cn(
+                      "flex w-full justify-between items-center text-left font-normal rounded-none border-b-2 bg-[#f6fbfa] text-gray-900 shadow-none px-3 transition-colors duration-200 h-10 text-sm cursor-pointer outline-hidden",
+                      "hover:border-[#449690] focus-visible:border-[#449690]",
+                      "disabled:cursor-not-allowed disabled:opacity-50",
+                      !isValidDate && "text-gray-400",
+                      fieldState.error ? "border-b-destructive" : "border-gray-300"
+                    )}
+                  />
+                }
               >
-                {field.value
-                  ? format(new Date(field.value), "PPP")
-                  : placeholder}
+                {isValidDate ? format(dateValue, "PPP") : placeholder}
+                <CalendarIcon className="h-4 w-4 text-[#449690] opacity-80 shrink-0" />
+              </PopoverTrigger>
 
-                <CalendarIcon className="h-4 w-4 opacity-60" />
-              </Button>
-            </PopoverTrigger>
+              {/* Popover Content */}
+              <PopoverContent className="w-auto p-0 border border-gray-200 shadow-md rounded-none" align="start">
+                <Calendar
+                  mode="single"
+                  selected={isValidDate ? dateValue : undefined}
+                  onSelect={(date) => {
+                    field.onChange(date);
+                  }}
+                  disabled={disabled}
+                  // এখানে থাকা initialFocus প্রপটি মুছে দেওয়া হয়েছে
+                />
+              </PopoverContent>
+            </Popover>
 
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                mode="single"
-                selected={field.value ? new Date(field.value) : undefined}
-                onSelect={field.onChange}
-                // initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-
-          {fieldState.error && (
-            <p className="text-xs text-red-500">
-              {fieldState.error.message}
-            </p>
-          )}
-        </div>
-      )}
+            {/* Error Message */}
+            {fieldState.error && (
+              <p className="text-xs text-red-500 mt-0.5">
+                {fieldState.error.message}
+              </p>
+            )}
+          </div>
+        );
+      }}
     />
   );
 }

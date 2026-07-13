@@ -11,7 +11,7 @@ const MIN_WIDTH = 220;
 const MAX_WIDTH = 420;
 const DEFAULT_WIDTH = 280;
 
-interface IProps {
+interface IPropsItems {
     title: string;
     icon: LucideIcon;
     link: string;
@@ -25,7 +25,7 @@ interface IProps {
     onToggle: () => void;
 }
 
-const MenuItems = ({ title, icon: Icon, link, active, subItem, onToggle, open, setOpen }: IProps) => {
+const MenuItems = ({ title, icon: Icon, link, active, subItem, onToggle, open, setOpen }: IPropsItems) => {
     const isActive = active === link || active.startsWith(link + "/");
     return (
         <li className={cn("transition-colors",
@@ -86,7 +86,10 @@ const MenuItems = ({ title, icon: Icon, link, active, subItem, onToggle, open, s
     )
 }
 
-const SideBar = () => {
+interface IProps{
+    className?: string;
+}
+const SideBar = ({className}:IProps) => {
     const pathname = usePathname();
     const [width, setWidth] = useState(DEFAULT_WIDTH);
     const [openMenu, setOpenMenu] = useState<string | null>(null);
@@ -163,7 +166,7 @@ const SideBar = () => {
                 className="absolute top-0 right-0 h-full w-1 cursor-ew-resize hover:bg-[#4a615f]"
             />
 
-            <div className="border-t dark:border-gray-300 text-right absolute bottom-0 left-0 w-full">
+            <div className="border-t dark:border-gray-300 text-right absolute bottom-0 left-0 w-full h-[3.2vh]">
                 <small className="pl-1 font-light font-mono text-xs">
                     Author:
                     <Link href="https://github.com/Rahi-007" target="_blank" className="hover:underline italic pr-2">

@@ -5,7 +5,11 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { LogOut, Settings, User } from "lucide-react";
 
-const Header = () => {
+interface IProps{
+    className?: string;
+}
+
+const Header = ({className}:IProps) => {
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -21,7 +25,7 @@ const Header = () => {
     }, []);
 
     return (
-        <div className="h-[4.5vh] w-full bg-[#449690] flex justify-between items-center border-b border-gray-300">
+        <div className={cn("h-[4.5vh] w-full bg-[#449690] flex justify-between items-center border-b border-gray-300", className)}>
             <div className="">
                 <h1 className="px-4 text-xl font-semibold">Seema&apos;s Cloud Talk</h1>
             </div>

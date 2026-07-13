@@ -1,8 +1,10 @@
 "use client";
 
+import * as React from "react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { cn } from "@/lib/utils";
 
 type IFormProps<T extends FieldValues> = React.ComponentProps<typeof Input> & {
   control: Control<T>;
@@ -21,6 +23,7 @@ function FormInput<T extends FieldValues>({
   readonly,
   required,
   type = "text",
+  className,
   ...rest
 }: IFormProps<T>) {
   return (
@@ -28,9 +31,9 @@ function FormInput<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field, fieldState }) => (
-        <div className="grid gap-0.5 relative mb-2">
+        <div className="grid gap-1 relative mb-4 w-full">
           {label && (
-            <Label htmlFor={name}>
+            <Label htmlFor={name} className="text-sm font-medium text-gray-700">
               {label}
               {required && <span className="text-red-500"> *</span>}
             </Label>
@@ -44,11 +47,16 @@ function FormInput<T extends FieldValues>({
             disabled={disabled}
             readOnly={readonly || disabled}
             value={field.value ?? ""}
-            className="bg-[#f6fbfa] rounded-t-xs"
+            className={cn(
+              "bg-[#f6fbfa] rounded-none border-b-2 border-gray-300 px-3 transition-colors duration-200",
+              "hover:border-[#449690] focus-visible:border-[#449690]",
+              fieldState.error ? "border-b-destructive" : "",
+              className
+            )}
           />
 
           {fieldState.error && (
-            <p className="absolute bottom-0 text-xs text-red-500">
+            <p className="text-xs text-red-500 mt-0.5">
               {fieldState.error.message}
             </p>
           )}
