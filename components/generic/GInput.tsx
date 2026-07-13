@@ -44,6 +44,7 @@ function FormInput<T extends FieldValues>({
             disabled={disabled}
             readOnly={readonly || disabled}
             value={field.value ?? ""}
+            className="bg-[#f6fbfa] rounded-t-xs"
           />
 
           {fieldState.error && (

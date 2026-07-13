@@ -1,5 +1,5 @@
-import ComingSoonCard from "@/components/layouts/ComingSoon"
-import Container from "@/components/layouts/Container"
+import ComingSoonCard from "@/components/layouts/ComingSoon";
+import Container from "@/components/layouts/Container";
 
 const page = () => {
   return (
@@ -8,7 +8,7 @@ const page = () => {
         <ComingSoonCard />
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default page
+export default page;

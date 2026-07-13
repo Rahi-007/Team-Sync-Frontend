@@ -12,13 +12,13 @@ const salsa = Salsa({
 });
 
 const playfairDisplayHeading = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-heading'
+  subsets: ["latin"],
+  variable: "--font-heading",
 });
 
 const notoSans = Noto_Sans({
-  subsets: ['latin'],
-  variable: '--font-sans'
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 const geistSans = Geist({
@@ -44,7 +44,16 @@ export default function RootLayout({ children }: Readonly<IProps>) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", salsa.variable, geistSans.variable, geistMono.variable, "font-sans", notoSans.variable, playfairDisplayHeading.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        salsa.variable,
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+        notoSans.variable,
+        playfairDisplayHeading.variable
+      )}
     >
       <body className="min-h-full">
         <ProviderConfig>

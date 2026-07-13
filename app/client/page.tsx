@@ -1,6 +1,6 @@
-import ComingSoonCard from "@/components/layouts/ComingSoon"
-import Container from "@/components/layouts/Container"
-import PageHeader from "@/components/layouts/PageHeader"
+import ComingSoonCard from "@/components/layouts/ComingSoon";
+import Container from "@/components/layouts/Container";
+import PageHeader from "@/components/layouts/PageHeader";
 
 const page = () => {
   return (
@@ -8,16 +8,13 @@ const page = () => {
       <PageHeader
         title="All Clients"
         description="Manage client information and contact details."
-        breadcrumbs={[
-          { label: "Dashboard", href: "/dashboard" },
-          { label: "Client" }
-        ]}
+        breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Client" }]}
       />
       <div className="p-6">
         <ComingSoonCard />
       </div>
     </Container>
-  )
-}
+  );
+};
 
-export default page
+export default page;

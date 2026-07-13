@@ -56,7 +56,7 @@ function FormSelect<T extends FieldValues>({
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
 
-            <SelectContent>
+            <SelectContent className="absolute top-0 -left-45.5">
               {options.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}

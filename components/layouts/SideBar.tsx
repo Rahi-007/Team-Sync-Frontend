@@ -67,7 +67,7 @@ const MenuItems = ({ title, icon: Icon, link, active, subItem, onToggle, open, s
                 )}
                 >
                     {subItem?.map((child) => (
-                        <li key={child.href}>
+                        <li key={child.href} onClick={onToggle}>
                             <Link
                                 href={child.href}
                                 className={cn("block rounded-xs px-2 py-2 text-sm transition-colors ",
@@ -129,7 +129,6 @@ const SideBar = () => {
         window.addEventListener("mouseup", handleMouseUp);
     };
 
-    // bg-[#5FC8A8] bg-[#449690] bg-[#307872]
     return (
         <div
             className="relative min-h-[95.5vh] border-r border-gray-300 bg-[#449690]"
