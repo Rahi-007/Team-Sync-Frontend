@@ -11,10 +11,15 @@ import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/service/auth.service";
 import { useAppDispatch } from "@/hook/reduxHooks";
 import GInput from "../generic/GInput";
-
+import toast from "react-hot-toast";
 
 const LoginSchema = z.object({
-  userName: z.string().min(3, { message: "Password must be at least 6 characters" }),
+  phone: z
+    .string()
+    .trim()
+    .regex(/^01[3-9]\d{8}$/, {
+      message: "Enter a valid Bangladeshi phone number",
+    }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
 });
 
@@ -25,27 +30,23 @@ const LoginForm = () => {
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const form = useForm<LoginFormValues>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      userName: "",
-      password: "",
-    },
+    resolver: zodResolver(LoginSchema)
   });
   const [showPass, setShowPass] = useState(false);
 
   const onSubmit = async (values: LoginFormValues) => {
     try {
-      const res = await login(values).unwrap();
-      const { accessToken, user } = res;
+      const { accessToken, user } = await login(values).unwrap();
 
       localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("userId", `${user?.userName}`);
+      localStorage.setItem("userId", `${user?.id}`);
 
       dispatch(setAuth({ accessToken, user }));
       router.replace("/");
       router.refresh();
-    } catch (err) {
-      console.error(err);
+      toast.success(`Welcome Back ${user.firstName} ${user.firstName ?? ""}`);
+    } catch {
+      toast.error("Something went wrong");
     }
   };
 
@@ -53,7 +54,7 @@ const LoginForm = () => {
     <form onSubmit={form.handleSubmit(onSubmit)} className="p-4 border-2 rounded-md w-100">
       <h1 className="text-2xl py-4 font-semibold">Login Form</h1>
       <div className="p-4">
-        <GInput.Form type="text" name="userName" label="User Name" control={form.control} placeholder="user name" className="mb-4" />
+        <GInput.Form type="text" name="phone" label="Phone" control={form.control} placeholder="Phone number" className="mb-4" />
         <GInput.Form
           type={showPass ? "text" : "password"}
           name="password"

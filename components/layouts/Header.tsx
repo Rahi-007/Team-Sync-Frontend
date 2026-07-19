@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { LogOut, Settings, User } from "lucide-react";
+import { logout } from "@/service/auth.service";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
-interface IProps{
+interface IProps {
     className?: string;
 }
 
-const Header = ({className}:IProps) => {
+const Header = ({ className }: IProps) => {
+    const router = useRouter();
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -61,8 +65,16 @@ const Header = ({className}:IProps) => {
                         <Settings className="w-5 h-5" />
                         <span>Settings</span>
                     </Link>
-                        
-                    <button onClick={()=> setOpen(false)} className="w-full px-3 py-2 flex gap-1 justify-start items-center font-medium hover:bg-red-50 text-red-600 cursor-pointer">
+
+                    <button
+                        onClick={() => {
+                            logout();
+                            setOpen(false);
+                            router.refresh();
+                            toast.success("Logout Successful");
+                        }}
+                        className="w-full px-3 py-2 flex gap-1 justify-start items-center font-medium hover:bg-red-50 text-red-600 cursor-pointer"
+                    >
                         <LogOut className="w-5 h-5" />
                         <span>Logout</span>
                     </button>

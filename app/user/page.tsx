@@ -1,8 +1,13 @@
+"use client";
+
 import ComingSoonCard from "@/components/layouts/ComingSoon";
 import Container from "@/components/layouts/Container";
 import PageHeader from "@/components/layouts/PageHeader";
+import { useGetAllUsersQuery } from "@/service/user.service";
 
-const page = () => {
+const Page = () => {
+  const { data, isLoading } = useGetAllUsersQuery();
+  console.log(data);
   return (
     <Container>
       <PageHeader
@@ -17,4 +22,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

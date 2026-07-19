@@ -36,13 +36,13 @@ export default function Root({ children }: { children: React.ReactNode }) {
     return <>{children}</>;
   }
 
-  // if (!authenticated) {
-  //     return (
-  //         <div className="flex w-full items-center justify-center h-screen bg-[#eefffa]">
-  //             <Login />
-  //         </div>
-  //     );
-  // }
+  if (!authenticated) {
+      return (
+          <div className="flex w-full items-center justify-center h-screen bg-white">
+              <Login />
+          </div>
+      );
+  }
 
   return (
     <>

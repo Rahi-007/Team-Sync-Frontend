@@ -1,15 +1,19 @@
 import { Gender } from "@/config/enum";
 
 export interface IUser {
-  id: number;
+  id: string;
   firstName: string;
   lastName?: string;
   phone: string;
   address?: string;
-  avatar?: string;
+  // avatar?: string;
   dateOfBirth?: Date;
   gender?: Gender;
-  role: {
+  // role: {
+  //   id: number;
+  //   name: string;
+  // };
+  team?: {
     id: number;
     name: string;
   };

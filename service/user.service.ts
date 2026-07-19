@@ -5,7 +5,7 @@ export const userApi = RTKApi.injectEndpoints({
   endpoints: build => ({
     addUser: build.mutation<IUser, IAddUser>({
       query: data => ({
-        url: "user",
+        url: "v1/user",
         method: "POST",
         body: data,
       }),
@@ -13,7 +13,10 @@ export const userApi = RTKApi.injectEndpoints({
     getUserByName: build.query<IUser, string>({
       query: name => `user/${name}`,
     }),
+    getAllUsers: build.query<IUser[], void>({
+      query: () => "v1/user",
+    }),
   }),
 });
 
-export const { useGetUserByNameQuery, useAddUserMutation } = userApi;
+export const { useGetUserByNameQuery, useAddUserMutation, useGetAllUsersQuery } = userApi;
