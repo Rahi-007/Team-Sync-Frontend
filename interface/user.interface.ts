@@ -18,14 +18,13 @@ export interface IUser {
     name: string;
   };
   rfId?: number;
-  password: string;
   createdAt: Date;
   updatedAt?: Date;
   createdBy: {
     id: number;
     name: string;
   };
-  updatedABy?: {
+  updatedBy?: {
     id: number;
     name: string;
   };

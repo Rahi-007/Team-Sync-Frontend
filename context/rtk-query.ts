@@ -6,7 +6,7 @@ export const RTKApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${BASE_URL}/api`,
     prepareHeaders: headers => {
-      const token = localStorage.getItem("accessToken");
+      const token = localStorage.getItem("authorization");
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -15,6 +15,6 @@ export const RTKApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Setting"],
+  tagTypes: ["Setting", "User"],
   endpoints: () => ({}),
 });

@@ -14,7 +14,7 @@ export default function Root({ children }: { children: React.ReactNode }) {
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem("authorization");
     const userId = localStorage.getItem("userId");
 
     if (accessToken && userId) {
@@ -37,11 +37,11 @@ export default function Root({ children }: { children: React.ReactNode }) {
   }
 
   if (!authenticated) {
-      return (
-          <div className="flex w-full items-center justify-center h-screen bg-white">
-              <Login />
-          </div>
-      );
+    return (
+      <div className="flex w-full items-center justify-center h-screen bg-white">
+        <Login />
+      </div>
+    );
   }
 
   return (

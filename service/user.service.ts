@@ -9,14 +9,42 @@ export const userApi = RTKApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["User"],
     }),
-    getUserByName: build.query<IUser, string>({
-      query: name => `user/${name}`,
+
+    updateUser: build.mutation<IUser, { id: string; data: Partial<IAddUser> }>({
+      query: ({ id, data }) => ({
+        url: `v1/user/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
     }),
+
+    deleteUser: build.mutation<void, string>({
+      query: id => ({
+        url: `v1/user/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["User"],
+    }),
+
+    getUserById: build.query<IUser, string>({
+      query: id => `v1/user/${id}`,
+      providesTags: (_result, _error, id) => [{ type: "User", id }],
+    }),
+
     getAllUsers: build.query<IUser[], void>({
       query: () => "v1/user",
+      providesTags: ["User"],
     }),
   }),
 });
 
-export const { useGetUserByNameQuery, useAddUserMutation, useGetAllUsersQuery } = userApi;
+export const {
+  useAddUserMutation,
+  useUpdateUserMutation,
+  useDeleteUserMutation,
+  useGetUserByIdQuery,
+  useGetAllUsersQuery,
+} = userApi;

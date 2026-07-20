@@ -38,7 +38,7 @@ const LoginForm = () => {
     try {
       const { accessToken, user } = await login(values).unwrap();
 
-      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("authorization", accessToken);
       localStorage.setItem("userId", `${user?.id}`);
 
       dispatch(setAuth({ accessToken, user }));

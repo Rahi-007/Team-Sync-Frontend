@@ -15,7 +15,7 @@ export const authApi = RTKApi.injectEndpoints({
 
 export function logout() {
   if (typeof window !== "undefined") {
-    window.localStorage.removeItem("accessToken");
+    window.localStorage.removeItem("authorization");
     window.localStorage.removeItem("userId");
   }
 }
