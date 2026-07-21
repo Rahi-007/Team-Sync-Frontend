@@ -12,9 +12,7 @@ import {
 } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 import { ColDef } from "ag-grid-community";
-import { useGetAllUsersQuery } from "@/service/user.service";
 import { IUser } from "@/interface/user.interface";
-import { Button } from "@/components/ui/button";
 import { SquarePen, Trash2 } from "lucide-react";
 
 ModuleRegistry.registerModules([
@@ -30,7 +28,7 @@ export const columnDefs: ColDef<IUser>[] = [
     {
         headerName: "ID",
         field: "id",
-        width: 100,
+        width: 108,
     },
     {
         headerName: "First Name",
@@ -73,20 +71,6 @@ export const columnDefs: ColDef<IUser>[] = [
     {
         headerName: "RF ID",
         field: "rfId",
-        width: 120,
-    },
-    {
-        headerName: "Created By",
-        valueGetter: (params) => params.data?.createdBy?.name ?? "-",
-        sortable: true,
-        filter: true,
-        flex: 1,
-    },
-    {
-        headerName: "Updated By",
-        valueGetter: (params) => params.data?.updatedBy?.name ?? "-",
-        sortable: true,
-        filter: true,
         flex: 1,
     },
     {
@@ -96,16 +80,7 @@ export const columnDefs: ColDef<IUser>[] = [
             params.value
                 ? new Date(params.value).toLocaleDateString()
                 : "-",
-        flex: 1,
-    },
-    {
-        headerName: "Updated At",
-        field: "updatedAt",
-        valueFormatter: (params) =>
-            params.value
-                ? new Date(params.value).toLocaleDateString()
-                : "-",
-        flex: 1,
+        width: 80,
     },
     {
         headerName: "Action",
@@ -113,40 +88,50 @@ export const columnDefs: ColDef<IUser>[] = [
         width: 140,
         sortable: false,
         filter: false,
+        headerComponent: () => (
+            <div className="w-full text-center font-semibold">
+                Action
+            </div>
+        ),
         cellRenderer: () => (
-            <div className="flex items-center gap-2 h-full">
-                <Button
-                    size="icon"
-                    variant="outline"
+            <div className="flex items-center justify-center gap-2 h-full">
+                <button
                 // onClick={() => handleEdit(params.data)}
                 >
                     <SquarePen className="h-4 w-4" />
-                </Button>
+                </button>
 
-                <Button
-                    size="icon"
-                    variant="destructive"
+                <button
                 // onClick={() => handleDelete(params.data.id)}
                 >
-                    <Trash2 className="h-4 w-4" />
-                </Button>
+                    <Trash2 className="h-4 w-4 text-red-500" />
+                </button>
             </div>
         ),
     },
 ];
 
-export default function UserTable() {
-    const { data, isLoading } = useGetAllUsersQuery();
+interface IProps {
+    data: IUser[];
+}
+
+export default function UserTable({ data }: IProps) {
     return (
         <div className="h-135">
             <AgGridReact
                 pagination
                 animateRows
                 rowData={data}
-                theme={themeBalham}
+                theme={themeBalham.withParams({
+                    borderRadius: "8px",
+                    wrapperBorder: true,
+                    wrapperBorderRadius: "8px",
+                })}
+                // theme={themeBalham}
                 columnDefs={columnDefs}
                 paginationPageSize={10}
-                rowSelection="multiple"
+                paginationPageSizeSelector={[10, 20, 50, 100]}
+                rowSelection={{ mode: "multiRow" }}
             />
         </div>
     );

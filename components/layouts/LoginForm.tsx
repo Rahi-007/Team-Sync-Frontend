@@ -37,13 +37,10 @@ const LoginForm = () => {
   const onSubmit = async (values: LoginFormValues) => {
     try {
       const { accessToken, user } = await login(values).unwrap();
-
       localStorage.setItem("authorization", accessToken);
-      localStorage.setItem("userId", `${user?.id}`);
+      localStorage.setItem("user", JSON.stringify(user));
 
       dispatch(setAuth({ accessToken, user }));
-      router.replace("/");
-      router.refresh();
       toast.success(`Welcome Back ${user.firstName} ${user.firstName ?? ""}`);
     } catch {
       toast.error("Something went wrong");

@@ -132,33 +132,39 @@
   }
 }
 
-@keyframes searchMove {
+@keyframes searchFloat {
   0% {
-    left: 10%;
-    transform: translateY(-50%) rotate(-20deg);
+    left: 0%;
+    top: 45%;
+    transform: translate(-50%, -50%) rotate(-15deg);
   }
 
   25% {
-    left: 75%;
-    transform: translateY(-50%) rotate(15deg);
+    left: 40%;
+    top: 20%;
+    transform: translate(-50%, -50%) rotate(10deg);
   }
 
   50% {
-    left: 45%;
-    transform: translateY(-50%) rotate(-10deg);
+    left: 90%;
+    top: 45%;
+    transform: translate(-50%, -50%) rotate(-10deg);
   }
 
   75% {
-    left: 80%;
-    transform: translateY(-50%) rotate(20deg);
+    left: 50%;
+    top: 80%;
+    transform: translate(-50%, -50%) rotate(15deg);
   }
 
   100% {
-    left: 10%;
-    transform: translateY(-50%) rotate(-20deg);
+    left: 0%;
+    top: 45%;
+    transform: translate(-50%, -50%) rotate(-15deg);
   }
 }
 
 .search-loader {
-  animation: searchMove 2.5s ease-in-out infinite;
+  position: absolute;
+  animation: searchFloat 3s ease-in-out infinite;
 }

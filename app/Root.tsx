@@ -2,41 +2,41 @@
 
 import Loading from "./loading";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "@/hook/reduxHooks";
+import { setAuth } from "@/context/slice/auth.slice";
 import Footer from "@/components/layouts/Footer";
 import Header from "@/components/layouts/Header";
 import SideBar from "@/components/layouts/SideBar";
 import Login from "@/components/layouts/LoginForm";
 
 export default function Root({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector((state) => state.auth.accessToken);
   const [checking, setChecking] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("authorization");
-    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("authorization");
+    const user = localStorage.getItem("user");
 
-    if (accessToken && userId) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setAuthenticated(true);
+    if (token && user) {
+      dispatch(
+        setAuth({
+          accessToken: token,
+          user: JSON.parse(user),
+        })
+      );
     }
 
-    setChecking(false);
-  }, []);
-
-  const publicRoutes = ["/login", "/register"];
-  const isPublicRoute = publicRoutes.includes(pathname);
+    // setTimeout(() => {
+    //   setChecking(false);
+    // }, 0);
+  }, [dispatch]);
 
   if (checking) {
     return <Loading />;
   }
 
-  if (isPublicRoute) {
-    return <>{children}</>;
-  }
-
-  if (!authenticated) {
+  if (!accessToken) {
     return (
       <div className="flex w-full items-center justify-center h-screen bg-white">
         <Login />

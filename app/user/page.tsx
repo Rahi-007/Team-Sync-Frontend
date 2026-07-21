@@ -2,9 +2,13 @@
 
 import Container from "@/components/layouts/Container";
 import PageHeader from "@/components/layouts/PageHeader";
+import { useGetAllUsersQuery } from "@/service/user.service";
+import UserTableSkeleton from "@/components/layouts/TableSkeleton";
 import UserTable from "./UserTable";
 
 const Page = () => {
+  const { data, isLoading } = useGetAllUsersQuery();
+
   return (
     <Container>
       <PageHeader
@@ -13,7 +17,11 @@ const Page = () => {
         breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "User" }]}
       />
       <div className="p-4">
-        <UserTable />
+        {isLoading ? (
+          <UserTableSkeleton />
+        ) : (
+          <UserTable data={data ?? []} />
+        )}
       </div>
     </Container>
   );
