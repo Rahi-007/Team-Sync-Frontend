@@ -11,7 +11,7 @@ const Page = () => {
         breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "User", href: "/user" }, { label: "Add User" }]}
       />
 
-      <div className="w-full mx-auto p-6">
+      <div className="w-full mx-auto p-4">
         <UserForm />
       </div>
     </Container>

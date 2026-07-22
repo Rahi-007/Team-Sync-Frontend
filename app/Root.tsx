@@ -27,9 +27,9 @@ export default function Root({ children }: { children: React.ReactNode }) {
       );
     }
 
-    // setTimeout(() => {
-    //   setChecking(false);
-    // }, 0);
+    setTimeout(() => {
+      setChecking(false);
+    }, 0);
   }, [dispatch]);
 
   if (checking) {

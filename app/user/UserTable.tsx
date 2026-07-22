@@ -60,6 +60,16 @@ export const columnDefs: ColDef<IUser>[] = [
         headerName: "Gender",
         field: "gender",
         width: 120,
+        valueFormatter: (params) => {
+            switch (params.value) {
+                case 0:
+                    return "Male";
+                case 1:
+                    return "Female";
+                default:
+                    return "-";
+            }
+        },
     },
     {
         headerName: "Team",
@@ -117,7 +127,7 @@ interface IProps {
 
 export default function UserTable({ data }: IProps) {
     return (
-        <div className="h-135">
+        <div className="h-[72.7vh]">
             <AgGridReact
                 pagination
                 animateRows

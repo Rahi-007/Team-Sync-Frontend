@@ -7,7 +7,7 @@ import { ChevronDown, Search, X } from "lucide-react";
 
 type SelectOption = {
   label: string;
-  value: string;
+  value: string | number;
 };
 
 type IFormSelectProps<T extends FieldValues> = {

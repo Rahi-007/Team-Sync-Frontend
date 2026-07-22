@@ -1,11 +1,13 @@
 "use client"
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { LogOut, Settings, User } from "lucide-react";
-import { logout } from "@/service/auth.service";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { LogOut, Settings, User } from "lucide-react";
+import { clearAuth } from "@/context/slice/auth.slice";
+import { logout } from "@/service/auth.service";
 import toast from "react-hot-toast";
 
 interface IProps {
@@ -14,6 +16,7 @@ interface IProps {
 
 const Header = ({ className }: IProps) => {
     const router = useRouter();
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
@@ -31,7 +34,7 @@ const Header = ({ className }: IProps) => {
     return (
         <div className={cn("h-[4.5vh] w-full bg-[#449690] flex justify-between items-center border-b border-gray-300", className)}>
             <div className="">
-                <h1 className="px-4 text-xl font-semibold">Seema&apos;s Cloud Talk</h1>
+                <h1 className="px-4 text-xl font-semibold">Viva Software Limited</h1>  {/* Seema&apos;s Cloud Talk */}
             </div>
             <div ref={ref} className="relative">
                 <button
@@ -69,8 +72,9 @@ const Header = ({ className }: IProps) => {
                     <button
                         onClick={() => {
                             logout();
+                            dispatch(clearAuth());
+                            router.push("/")
                             setOpen(false);
-                            router.refresh();
                             toast.success("Logout Successful");
                         }}
                         className="w-full px-3 py-2 flex gap-1 justify-start items-center font-medium hover:bg-red-50 text-red-600 cursor-pointer"

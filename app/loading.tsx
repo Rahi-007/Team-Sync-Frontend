@@ -14,7 +14,6 @@ const Loading = () => {
           />
         </div>
 
-        {/* Text */}
         <div className="mt-4 text-center">
           <h2 className="text-2xl font-semibold text-gray-800">
             Searching...

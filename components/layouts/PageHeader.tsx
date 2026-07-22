@@ -21,7 +21,7 @@ export default function PageHeader({
   action,
 }: PageHeaderProps) {
   return (
-    <div className="border-b bg-white">
+    <div className="border-b bg-white h-[16vh]">
       <div className="w-full mx-auto px-8 py-6">
         {breadcrumbs.length > 0 && (
           <div className="mb-3 flex flex-wrap items-center gap-2 text-sm text-slate-500">

@@ -32,7 +32,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SCT Software",
+  title: "Viva Soft",
   description: "Team management software distribute the task",
 };
 

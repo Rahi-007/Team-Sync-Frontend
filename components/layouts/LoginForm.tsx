@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { setAuth } from "@/context/slice/auth.slice";
-import { useRouter } from "next/navigation";
 import { LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLoginMutation } from "@/service/auth.service";
@@ -26,7 +25,6 @@ const LoginSchema = z.object({
 type LoginFormValues = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const form = useForm<LoginFormValues>({

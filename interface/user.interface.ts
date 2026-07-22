@@ -17,7 +17,7 @@ export interface IUser {
     id: number;
     name: string;
   };
-  rfId?: number;
+  rfId?: string;
   createdAt: Date;
   updatedAt?: Date;
   createdBy: {
@@ -35,9 +35,9 @@ export interface IAddUser {
   lastName?: string;
   phone: string;
   address?: string;
-  avatar?: string;
+  // avatar?: string;
   dateOfBirth?: Date;
   gender?: Gender;
-  role: number;
-  rfId?: number;
+  // role: number;
+  rfId?: string;
 }

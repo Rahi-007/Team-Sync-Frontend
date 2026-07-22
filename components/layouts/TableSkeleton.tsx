@@ -1,6 +1,6 @@
 export default function UserTableSkeleton() {
   return (
-    <div className="h-135 w-full rounded-md border p-4 shadow-sm animate-pulse bg-background space-y-4">
+    <div className="h-[72.7vh] w-full rounded-md border p-4 shadow-sm animate-pulse bg-background space-y-4">
 
       <div className="flex items-center justify-between pb-2 border-b">
         <div className="h-8 w-48 bg-muted rounded-md" />
