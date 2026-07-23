@@ -1,14 +1,14 @@
 "use client";
 
 import {
-    ModuleRegistry,
-    ClientSideRowModelModule,
-    PaginationModule,
-    TextFilterModule,
-    NumberFilterModule,
-    ValidationModule,
-    RowSelectionModule,
-    themeBalham
+  ModuleRegistry,
+  ClientSideRowModelModule,
+  PaginationModule,
+  TextFilterModule,
+  NumberFilterModule,
+  ValidationModule,
+  RowSelectionModule,
+  themeBalham
 } from "ag-grid-community";
 import {
   AgGridReact,
@@ -17,12 +17,12 @@ import {
 
 
 ModuleRegistry.registerModules([
-    ClientSideRowModelModule,
-    PaginationModule,
-    TextFilterModule,
-    NumberFilterModule,
-    RowSelectionModule,
-    ValidationModule,
+  ClientSideRowModelModule,
+  PaginationModule,
+  TextFilterModule,
+  NumberFilterModule,
+  RowSelectionModule,
+  ValidationModule,
 ]);
 
 type DataTableProps<T> = AgGridReactProps<T> & {
@@ -38,8 +38,8 @@ export default function DataTable<T>({
       <AgGridReact
         animateRows
         pagination
-        paginationPageSize={10}
-        paginationPageSizeSelector={[10, 20, 50, 100]}
+        paginationPageSize={20}
+        paginationPageSizeSelector={[20, 30, 50, 100, 500]}
         rowSelection={{ mode: "multiRow" }}
         theme={themeBalham.withParams({
           borderRadius: "8px",

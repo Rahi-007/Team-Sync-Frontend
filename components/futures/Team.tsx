@@ -1,10 +1,10 @@
 "use client";
 
+import { useSelectTeamsQuery } from "@/service/team.service";
 import { Control, FieldValues, Path } from "react-hook-form";
-import { useSelectUsersQuery } from "@/service/user.service";
 import GSelect from "../generic/GSelect";
 
-type UserFormProps<T extends FieldValues> = {
+type TeamFormProps<T extends FieldValues> = {
     control: Control<T>;
     name: Path<T>;
     label?: string;
@@ -13,19 +13,19 @@ type UserFormProps<T extends FieldValues> = {
     required?: boolean;
 };
 
-function UserSelect<T extends FieldValues>({
+function TeamSelect<T extends FieldValues>({
     control,
     name,
-    label = "User",
-    placeholder = "Select User",
+    label = "Team",
+    placeholder = "Select Team",
     disabled,
     required,
-}: UserFormProps<T>) {
-    const { data: users = [], isFetching } = useSelectUsersQuery();
+}: TeamFormProps<T>) {
+    const { data: teams = [], isLoading } = useSelectTeamsQuery();
 
-    const options = users.map((user) => ({
-        label: `${user.name} ~ ${user.phone}`,
-        value: user.id,
+    const options = teams.map((team) => ({
+        label: team.name,
+        value: team.id,
     }));
 
     return (
@@ -37,13 +37,13 @@ function UserSelect<T extends FieldValues>({
             options={options}
             disabled={disabled}
             required={required}
-            isLoading={isFetching}
+            isLoading={isLoading}
         />
     );
 }
 
-const User = {
-    Form: UserSelect,
+const Team = {
+    Form: TeamSelect,
 };
 
-export default User;
+export default Team;

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddUserMutation } from "@/service/user.service";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { IUser } from "@/interface/user.interface";
 import { Button } from "@/components/ui/button";
 import { enumToOptions } from "@/lib/utils";
@@ -12,7 +13,9 @@ import { Gender } from "@/config/enum";
 import GInput from "@/components/generic/GInput";
 import GDatePicker from "@/components/generic/GDatePicker";
 import GSelect from "@/components/generic/GSelect";
+import Team from "@/components/futures/Team";
 import toast from "react-hot-toast";
+import GButton from "@/components/generic/GButton";
 
 const UserSchema = z.object({
   firstName: z.string().min(3, { message: "First name must be at least 3 characters" }),
@@ -29,12 +32,14 @@ const UserSchema = z.object({
   dateOfBirth: z.date().optional(),
   // role: z.number({ message: "Role is Required" }),
   // avatar: z.string().optional(),
+  teamId: z.number().optional(),
   address: z.string().optional(),
 });
 
 type UserFormValues = z.infer<typeof UserSchema>;
 
 interface IProps {
+  title?: string;
   defaultValues?: IUser;
 }
 
@@ -52,6 +57,7 @@ const UserForm = (props: IProps) => {
       rfId: props.defaultValues?.rfId || "",
       gender: props.defaultValues?.gender,
       dateOfBirth: props.defaultValues?.dateOfBirth || undefined,
+      teamId: props.defaultValues?.team?.id || undefined,
       // role: undefined,
       // avatar: "",
       address: props.defaultValues?.address || "",
@@ -61,46 +67,65 @@ const UserForm = (props: IProps) => {
   const onSubmit = async (values: UserFormValues) => {
     try {
       await addUser(values).unwrap();
+      form.reset();
       toast.success("User added successful");
-    } catch {
-      toast.error("Something went wrong");
+    } catch (err) {
+      const error = err as FetchBaseQueryError & {
+        data?: { message?: string };
+      };
+      toast.error(error.data?.message ?? "Something went wrong");
     }
   };
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="rounded-2xl border bg-white shadow-sm">
       <div className="border-b px-8 py-6">
-        <h2 className="text-2xl font-bold">User Form</h2>
+        <h2 className="text-2xl font-bold">{props.title ?? "User Form"}</h2>
       </div>
 
       <div className="grid gap-y-1 gap-x-4 px-8 py-6 md:grid-cols-2 xl:grid-cols-3">
-        <GInput.Form name="firstName" label="First Name" control={form.control} placeholder="John" />
+        <GInput.Form name="firstName" label="First Name" control={form.control} placeholder="John" required />
         <GInput.Form name="lastName" label="Last Name" control={form.control} placeholder="Doe" />
         <GInput.Form name="rfId" label="RFID" control={form.control} placeholder="Employee Id" />
 
-        <GInput.Form name="phone" label="Phone Number" control={form.control} placeholder="017xxxxxxxx" />
-        <GInput.Form type={showPass ? "text" : "password"} name="password" label="Password" control={form.control} placeholder="••••••••" />
-        <GDatePicker.Form control={form.control} name="dateOfBirth" label="Date of Birth" placeholder="Select date" />
+        <GInput.Form name="phone" label="Phone Number" control={form.control} placeholder="01xxxxxxxxx" required />
+        <GInput.Form type={showPass ? "text" : "password"} name="password" label="Password" control={form.control} placeholder="••••••••" required />
+        <Team.Form control={form.control} name="teamId" label="Team Name" />
 
-        <GSelect.Form
-          control={form.control}
-          name="gender"
-          label="Gender"
-          placeholder="Select Gender"
-          options={enumToOptions(Gender)}
-        />
-        <div className="xl:col-span-2">
-          <GInput.Form name="address" label="Address" control={form.control} placeholder="Present Address" />
-        </div>
+        <GInput.Form name="address" label="Address" control={form.control} placeholder="Present Address" />
+        <GSelect.Form control={form.control} name="gender" label="Gender" placeholder="Select Gender" options={enumToOptions(Gender)} />
+        <GDatePicker.Form control={form.control} name="dateOfBirth" label="Date of Birth" placeholder="Select date" />
       </div>
 
       <div className="flex justify-end rounded-b-2xl gap-3 border-t bg-slate-50 px-8 py-5">
-        <Button variant="outline" type="reset" onClick={() => form.reset()}>
-          Cancel
-        </Button>
+        {props.defaultValues ? (
+          <>
+            <GButton
+              action="delete"
+              type="button"
+            // onClick={handleDelete}
+            />
 
-        <Button className="min-w-36 bg-[#449690] hover:bg-[#449690]/80" disabled={form.formState.isSubmitting} type="submit">
-          {form.formState.isSubmitting ? "Creating..." : "Create User"}
-        </Button>
+            <GButton
+              action="update"
+              type="submit"
+              loading={form.formState.isSubmitting}
+            />
+          </>
+        ) : (
+          <>
+            <GButton
+              action="reset"
+              type="reset"
+              onClick={() => form.reset()}
+            />
+
+            <GButton
+              action="add"
+              type="submit"
+              loading={form.formState.isSubmitting}
+            />
+          </>
+        )}
       </div>
     </form>
   );

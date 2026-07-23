@@ -1,5 +1,5 @@
 export interface ITeam {
-  id: string;
+  id: number;
   name: string;
   narration?: string;
   members: {
@@ -20,6 +20,10 @@ export interface ITeam {
     id: string;
     name: string;
   };
+}
+export interface ISelectTeam {
+  id: number;
+  name: string;
 }
 
 export interface IAddTeam {

@@ -1,5 +1,5 @@
 import { RTKApi } from "@/context/rtk-query";
-import { IAddTeam, ITeam } from "@/interface/team.interface";
+import { IAddTeam, ISelectTeam, ITeam } from "@/interface/team.interface";
 
 export const teamApi = RTKApi.injectEndpoints({
   endpoints: build => ({
@@ -29,13 +29,18 @@ export const teamApi = RTKApi.injectEndpoints({
       invalidatesTags: ["Team"],
     }),
 
-    getTeamById: build.query<ITeam, string>({
+    getTeamById: build.query<ITeam, number>({
       query: id => `v1/team/${id}`,
-    //   providesTags: (_result, _error, id) => [{ type: "team", id }],
+      providesTags: (_result, _error, id) => [{ type: "Team", id }],
     }),
 
     getAllTeams: build.query<ITeam[], void>({
       query: () => "v1/team",
+      providesTags: ["Team"],
+    }),
+
+    selectTeams: build.query<ISelectTeam[], void>({
+      query: () => "v1/team/select",
       providesTags: ["Team"],
     }),
   }),
@@ -47,4 +52,5 @@ export const {
   useDeleteTeamMutation,
   useGetTeamByIdQuery,
   useGetAllTeamsQuery,
+  useSelectTeamsQuery
 } = teamApi;

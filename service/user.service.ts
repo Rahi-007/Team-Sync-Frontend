@@ -1,5 +1,5 @@
 import { RTKApi } from "@/context/rtk-query";
-import { IAddUser, IUser } from "@/interface/user.interface";
+import { IAddUser, ISelectUser, IUser } from "@/interface/user.interface";
 
 export const userApi = RTKApi.injectEndpoints({
   endpoints: build => ({
@@ -38,6 +38,11 @@ export const userApi = RTKApi.injectEndpoints({
       query: () => "v1/user",
       providesTags: ["User"],
     }),
+
+    selectUsers: build.query<ISelectUser[], void>({
+      query: () => "v1/user/select",
+      providesTags: ["User"],
+    }),
   }),
 });
 
@@ -47,4 +52,5 @@ export const {
   useDeleteUserMutation,
   useGetUserByIdQuery,
   useGetAllUsersQuery,
+  useSelectUsersQuery
 } = userApi;

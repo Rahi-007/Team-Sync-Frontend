@@ -9,7 +9,7 @@ const columnDefs: ColDef<ITeam>[] = [
     {
         headerName: "ID",
         field: "id",
-        width: 40,
+        width: 50,
     },
     {
         headerName: "Team Name",
@@ -42,11 +42,16 @@ const columnDefs: ColDef<ITeam>[] = [
     {
         headerName: "Created At",
         field: "createdAt",
-        valueFormatter: (params) =>
-            params.value
-                ? new Date(params.value).toLocaleDateString()
-                : "-",
-        width: 80,
+        valueFormatter: (params) => {
+            if (!params.value) return "-";
+
+            const date = new Date(params.value);
+            return `${date.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+            })}, ${date.getFullYear()}`;
+        },
+        width: 100,
     },
     {
         headerName: "Action",

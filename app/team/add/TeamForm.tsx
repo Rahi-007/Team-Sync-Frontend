@@ -3,6 +3,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { useAddTeamMutation } from "@/service/team.service";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { ITeam } from "@/interface/team.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -37,9 +38,13 @@ const TeamForm = (props: IProps) => {
   const onSubmit = async (values: TeamFormValues) => {
     try {
       await addTeam(values).unwrap();
+      form.reset();
       toast.success("Team added successful");
-    } catch {
-      toast.error("Something went wrong");
+    } catch (err) {
+      const error = err as FetchBaseQueryError & {
+        data?: { message?: string };
+      };
+      toast.error(error.data?.message ?? "Something went wrong");
     }
   };
   return (
@@ -49,10 +54,10 @@ const TeamForm = (props: IProps) => {
       </div>
 
       <div className="grid gap-y-1 gap-x-4 px-8 py-6 md:grid-cols-2 xl:grid-cols-3">
-        <GInput.Form name="name" label="Team Name" control={form.control} placeholder="John Team" required/>
-        <User.Form control={form.control} name="teamLeaderId" label="Team Leader" required/>
+        <GInput.Form name="name" label="Team Name" control={form.control} placeholder="John Team" required />
+        <User.Form control={form.control} name="teamLeaderId" label="Team Leader" required />
         <div className="md:col-span-2 xl:md:col-span-1">
-        <GInput.Form name="narration" label="Narration" control={form.control} placeholder="Description" />
+          <GInput.Form name="narration" label="Narration" control={form.control} placeholder="Description" />
         </div>
       </div>
 

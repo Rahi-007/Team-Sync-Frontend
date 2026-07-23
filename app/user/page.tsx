@@ -8,7 +8,6 @@ import UserTable from "./UserTable";
 
 const Page = () => {
   const { data, isLoading } = useGetAllUsersQuery();
-
   return (
     <Container>
       <PageHeader

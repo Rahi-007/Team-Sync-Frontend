@@ -3,7 +3,9 @@
 import { ColDef } from "ag-grid-community";
 import { IUser } from "@/interface/user.interface";
 import { SquarePen, Trash2 } from "lucide-react";
+import { ICellRendererParams } from "ag-grid-community";
 import DataTable from "@/components/layouts/DataTable";
+import Link from "next/link";
 
 const columnDefs: ColDef<IUser>[] = [
     {
@@ -69,11 +71,16 @@ const columnDefs: ColDef<IUser>[] = [
     {
         headerName: "Created At",
         field: "createdAt",
-        valueFormatter: (params) =>
-            params.value
-                ? new Date(params.value).toLocaleDateString()
-                : "-",
-        width: 80,
+        valueFormatter: (params) => {
+            if (!params.value) return "-";
+
+            const date = new Date(params.value);
+            return `${date.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "short",
+            })}, ${date.getFullYear()}`;
+        },
+        width: 100,
     },
     {
         headerName: "Action",
@@ -86,13 +93,13 @@ const columnDefs: ColDef<IUser>[] = [
                 Action
             </div>
         ),
-        cellRenderer: () => (
+        cellRenderer: (params: ICellRendererParams<IUser>) => (
             <div className="flex items-center justify-center gap-2 h-full">
-                <button
-                // onClick={() => handleEdit(params.data)}
+                <Link
+                    href={`/user/${params.data?.id}`}
                 >
-                    <SquarePen className="h-4 w-4" />
-                </button>
+                    <SquarePen className="h-4 w-4 hover:text-blue-600" />
+                </Link>
 
                 <button
                 // onClick={() => handleDelete(params.data.id)}

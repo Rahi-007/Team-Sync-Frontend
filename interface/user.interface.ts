@@ -30,6 +30,12 @@ export interface IUser {
   };
 }
 
+export interface ISelectUser {
+  id: string;
+  name: string;
+  phone: string;
+}
+
 export interface IAddUser {
   firstName: string;
   lastName?: string;
@@ -38,6 +44,6 @@ export interface IAddUser {
   // avatar?: string;
   dateOfBirth?: Date;
   gender?: Gender;
-  // role: number;
+  teamId?: number;
   rfId?: string;
 }

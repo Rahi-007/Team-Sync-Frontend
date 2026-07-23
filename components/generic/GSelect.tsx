@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import { ChevronDown, Loader, Search, X } from "lucide-react";
 import { Label } from "../ui/label";
-import { ChevronDown, Loader2, Search, X } from "lucide-react";
 
 type SelectOption = {
   label: string;
@@ -78,7 +78,7 @@ function FormSelect<T extends FieldValues>({
               </span>
               <div className="flex items-center gap-1.5">
                 {isLoading ? (
-                  <Loader2 className="h-4 w-4 animate-spin text-[#449690]" />
+                  <Loader className="h-5 w-5 animate-spin text-[#449690]" />
                 ) : (
                   <>
                     {selectedOption && !disabled && (
@@ -99,20 +99,6 @@ function FormSelect<T extends FieldValues>({
                   </>
                 )}
               </div>
-
-              {/* <div className="flex items-center gap-1.5">
-                {selectedOption && !disabled && (
-                  <X
-                    className="h-4 w-4 text-gray-400 hover:text-red-500 cursor-pointer"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      field.onChange("");
-                      setSearchTerm("");
-                    }}
-                  />
-                )}
-                <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
-              </div> */}
             </div>
 
             {/* Dropdown Content */}
