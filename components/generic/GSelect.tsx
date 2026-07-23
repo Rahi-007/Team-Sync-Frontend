@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import { Label } from "../ui/label";
-import { ChevronDown, Search, X } from "lucide-react";
+import { ChevronDown, Loader2, Search, X } from "lucide-react";
 
 type SelectOption = {
   label: string;
@@ -18,6 +18,7 @@ type IFormSelectProps<T extends FieldValues> = {
   options: SelectOption[];
   disabled?: boolean;
   required?: boolean;
+  isLoading?: boolean;
 };
 
 function FormSelect<T extends FieldValues>({
@@ -28,6 +29,7 @@ function FormSelect<T extends FieldValues>({
   options,
   disabled,
   required,
+  isLoading = false,
 }: IFormSelectProps<T>) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -74,8 +76,31 @@ function FormSelect<T extends FieldValues>({
               <span className={`truncate ${!selectedOption ? "text-gray-400" : "text-gray-900"}`}>
                 {selectedOption ? selectedOption.label : placeholder}
               </span>
-              
               <div className="flex items-center gap-1.5">
+                {isLoading ? (
+                  <Loader2 className="h-4 w-4 animate-spin text-[#449690]" />
+                ) : (
+                  <>
+                    {selectedOption && !disabled && (
+                      <X
+                        className="h-4 w-4 text-gray-400 hover:text-red-500 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          field.onChange("");
+                          setSearchTerm("");
+                        }}
+                      />
+                    )}
+
+                    <ChevronDown
+                      className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                        }`}
+                    />
+                  </>
+                )}
+              </div>
+
+              {/* <div className="flex items-center gap-1.5">
                 {selectedOption && !disabled && (
                   <X
                     className="h-4 w-4 text-gray-400 hover:text-red-500 cursor-pointer"
@@ -87,7 +112,7 @@ function FormSelect<T extends FieldValues>({
                   />
                 )}
                 <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
-              </div>
+              </div> */}
             </div>
 
             {/* Dropdown Content */}
@@ -120,8 +145,8 @@ function FormSelect<T extends FieldValues>({
                             setSearchTerm("");
                           }}
                           className={`cursor-pointer px-3 py-2.5 text-sm transition-colors duration-150
-                            ${isSelected 
-                              ? "bg-[#449690] text-white font-medium" 
+                            ${isSelected
+                              ? "bg-[#449690] text-white font-medium"
                               : "text-gray-700 hover:bg-[#f6fbfa] hover:text-[#449690]"
                             }
                           `}

@@ -12,6 +12,7 @@ import { Gender } from "@/config/enum";
 import GInput from "@/components/generic/GInput";
 import GDatePicker from "@/components/generic/GDatePicker";
 import GSelect from "@/components/generic/GSelect";
+import toast from "react-hot-toast";
 
 const UserSchema = z.object({
   firstName: z.string().min(3, { message: "First name must be at least 3 characters" }),
@@ -59,12 +60,10 @@ const UserForm = (props: IProps) => {
 
   const onSubmit = async (values: UserFormValues) => {
     try {
-      const res = await addUser(values).unwrap();
-      console.error(res);
-
-
-    } catch (err) {
-      console.error(err);
+      await addUser(values).unwrap();
+      toast.success("User added successful");
+    } catch {
+      toast.error("Something went wrong");
     }
   };
   return (

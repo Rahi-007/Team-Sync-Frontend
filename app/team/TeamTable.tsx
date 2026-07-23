@@ -1,70 +1,43 @@
 "use client";
 
 import { ColDef } from "ag-grid-community";
-import { IUser } from "@/interface/user.interface";
 import { SquarePen, Trash2 } from "lucide-react";
+import { ITeam } from "@/interface/team.interface";
 import DataTable from "@/components/layouts/DataTable";
 
-const columnDefs: ColDef<IUser>[] = [
+const columnDefs: ColDef<ITeam>[] = [
     {
         headerName: "ID",
         field: "id",
+        width: 40,
+    },
+    {
+        headerName: "Team Name",
+        field: "name",
+        sortable: true,
+        filter: true,
+        flex: 1,
+    },
+    {
+        headerName: "Team Leader Name",
+        field: "teamLeader.name",
+        sortable: true,
+        filter: true,
+        flex: 1,
+    },
+    {
+        headerName: "Description",
+        field: "narration",
         sortable: false,
-        width: 108,
+        filter: false,
+        flex: 2,
     },
     {
-        headerName: "First Name",
-        field: "firstName",
-        sortable: true,
-        filter: true,
-        flex: 1,
-    },
-    {
-        headerName: "Last Name",
-        field: "lastName",
-        sortable: true,
-        filter: true,
-        flex: 1,
-    },
-    {
-        headerName: "Phone",
-        field: "phone",
-        sortable: true,
-        filter: true,
-        flex: 1,
-    },
-    {
-        headerName: "Address",
-        field: "address",
-        filter: true,
-        flex: 1,
-    },
-    {
-        headerName: "Gender",
-        field: "gender",
+        headerName: "Total Members",
+        valueGetter: (params) => params.data?.members.length ?? 0,
+        sortable: false,
+        filter: false,
         width: 120,
-        valueFormatter: (params) => {
-            switch (params.value) {
-                case 0:
-                    return "Male";
-                case 1:
-                    return "Female";
-                default:
-                    return "-";
-            }
-        },
-    },
-    {
-        headerName: "Team",
-        valueGetter: (params) => params.data?.team?.name ?? "-",
-        sortable: true,
-        filter: true,
-        flex: 1,
-    },
-    {
-        headerName: "RF ID",
-        field: "rfId",
-        flex: 1,
     },
     {
         headerName: "Created At",
@@ -105,10 +78,10 @@ const columnDefs: ColDef<IUser>[] = [
 ];
 
 interface IProps {
-    data: IUser[];
+    data: ITeam[];
 }
 
-export default function UserTable({ data }: IProps) {
+export default function TeamTable({ data }: IProps) {
     return (
         <DataTable
             rowData={data}

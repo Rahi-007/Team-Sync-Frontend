@@ -74,9 +74,6 @@ const ProjectForm = (props: Props) => {
     <form onSubmit={form.handleSubmit(onSubmit)} className="rounded-2xl border bg-white shadow-sm">
       <div className="border-b px-8 py-6">
         <h2 className="text-2xl font-bold">Project Form</h2>
-        {/* <p className="mt-1 text-sm text-muted-foreground">
-                    Create a new user account for your organization.
-                </p> */}
       </div>
 
       <div className="grid gap-y-1 gap-x-4 px-8 py-6 md:grid-cols-2 xl:grid-cols-3">
