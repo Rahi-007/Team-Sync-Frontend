@@ -86,10 +86,10 @@ const MenuItems = ({ title, icon: Icon, link, active, subItem, onToggle, open, s
     )
 }
 
-interface IProps{
+interface IProps {
     className?: string;
 }
-const SideBar = ({className}:IProps) => {
+const SideBar = ({ className }: IProps) => {
     const pathname = usePathname();
     const [width, setWidth] = useState(DEFAULT_WIDTH);
     const [openMenu, setOpenMenu] = useState<string | null>(null);

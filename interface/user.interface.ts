@@ -42,6 +42,19 @@ export interface IAddUser {
   phone: string;
   address?: string;
   // avatar?: string;
+  password: string;
+  dateOfBirth?: Date;
+  gender?: Gender;
+  teamId?: number;
+  rfId?: string;
+}
+
+export interface IUpdateUser {
+  firstName: string;
+  lastName?: string;
+  phone: string;
+  address?: string;
+  // avatar?: string;
   dateOfBirth?: Date;
   gender?: Gender;
   teamId?: number;

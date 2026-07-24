@@ -1,8 +1,14 @@
-import ComingSoonCard from "@/components/layouts/ComingSoon";
+"use client";
+
 import Container from "@/components/layouts/Container";
 import PageHeader from "@/components/layouts/PageHeader";
+import TableSkeleton from "@/components/layouts/TableSkeleton";
+import ClientTable from "./ClientTable";
+import { useGetAllClientsQuery } from "@/service/client.service";
 
-const page = () => {
+const Page = () => {
+  const { data, isLoading } = useGetAllClientsQuery();
+
   return (
     <Container>
       <PageHeader
@@ -10,11 +16,15 @@ const page = () => {
         description="Manage client information and contact details."
         breadcrumbs={[{ label: "Dashboard", href: "/" }, { label: "Client" }]}
       />
-      <div className="p-6">
-        <ComingSoonCard />
+      <div className="p-4">
+        {isLoading ? (
+          <TableSkeleton />
+        ) : (
+          <ClientTable data={data ?? []} />
+        )}
       </div>
     </Container>
   );
 };
 
-export default page;
+export default Page;

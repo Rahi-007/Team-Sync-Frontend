@@ -3,7 +3,7 @@
 import Container from "@/components/layouts/Container";
 import PageHeader from "@/components/layouts/PageHeader";
 import { useGetAllUsersQuery } from "@/service/user.service";
-import UserTableSkeleton from "@/components/layouts/TableSkeleton";
+import TableSkeleton from "@/components/layouts/TableSkeleton";
 import UserTable from "./UserTable";
 
 const Page = () => {
@@ -17,7 +17,7 @@ const Page = () => {
       />
       <div className="p-4">
         {isLoading ? (
-          <UserTableSkeleton />
+          <TableSkeleton />
         ) : (
           <UserTable data={data ?? []} />
         )}

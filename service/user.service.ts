@@ -1,5 +1,5 @@
 import { RTKApi } from "@/context/rtk-query";
-import { IAddUser, ISelectUser, IUser } from "@/interface/user.interface";
+import { IAddUser, ISelectUser, IUpdateUser, IUser } from "@/interface/user.interface";
 
 export const userApi = RTKApi.injectEndpoints({
   endpoints: build => ({
@@ -12,7 +12,7 @@ export const userApi = RTKApi.injectEndpoints({
       invalidatesTags: ["User"],
     }),
 
-    updateUser: build.mutation<IUser, { id: string; data: Partial<IAddUser> }>({
+    updateUser: build.mutation<IUser, { id: string; data: Partial<IUpdateUser> }>({
       query: ({ id, data }) => ({
         url: `v1/user/${id}`,
         method: "PUT",

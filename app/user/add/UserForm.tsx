@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAddUserMutation } from "@/service/user.service";
+import { useAddUserMutation, useDeleteUserMutation, useUpdateUserMutation } from "@/service/user.service";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { IUser } from "@/interface/user.interface";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import Team from "@/components/futures/Team";
 import toast from "react-hot-toast";
 import GButton from "@/components/generic/GButton";
 
-const UserSchema = z.object({
+const CreateUserSchema = z.object({
   firstName: z.string().min(3, { message: "First name must be at least 3 characters" }),
   lastName: z.string().optional(),
   phone: z
@@ -36,7 +36,12 @@ const UserSchema = z.object({
   address: z.string().optional(),
 });
 
-type UserFormValues = z.infer<typeof UserSchema>;
+const UpdateUserSchema = CreateUserSchema.omit({
+  password: true,
+});
+
+type CreateUserFormValues = z.infer<typeof CreateUserSchema>;
+type UpdateUserFormValues = z.infer<typeof UpdateUserSchema>;
 
 interface IProps {
   title?: string;
@@ -45,10 +50,15 @@ interface IProps {
 
 const UserForm = (props: IProps) => {
   const [addUser] = useAddUserMutation();
+  const [updateUser] = useUpdateUserMutation();
+  const [handleDelete] = useDeleteUserMutation();
   const [showPass, setShowPass] = useState(false);
+  const schema = props.defaultValues
+    ? UpdateUserSchema
+    : CreateUserSchema;
 
-  const form = useForm<UserFormValues>({
-    resolver: zodResolver(UserSchema),
+  const form = useForm<CreateUserFormValues | UpdateUserFormValues>({
+    resolver: zodResolver(schema),
     defaultValues: {
       firstName: props.defaultValues?.firstName,
       lastName: props.defaultValues?.lastName || "",
@@ -64,11 +74,16 @@ const UserForm = (props: IProps) => {
     },
   });
 
-  const onSubmit = async (values: UserFormValues) => {
+  const onSubmit = async (values: CreateUserFormValues | UpdateUserFormValues) => {
     try {
-      await addUser(values).unwrap();
-      form.reset();
-      toast.success("User added successful");
+      if (props.defaultValues) {
+        await updateUser({ id: props.defaultValues.id, data: values as UpdateUserFormValues }).unwrap();
+        toast.success("User updated successful");
+      } else {
+        await addUser(values as CreateUserFormValues).unwrap();
+        form.reset();
+        toast.success("User added successful");
+      }
     } catch (err) {
       const error = err as FetchBaseQueryError & {
         data?: { message?: string };
@@ -88,7 +103,7 @@ const UserForm = (props: IProps) => {
         <GInput.Form name="rfId" label="RFID" control={form.control} placeholder="Employee Id" />
 
         <GInput.Form name="phone" label="Phone Number" control={form.control} placeholder="01xxxxxxxxx" required />
-        <GInput.Form type={showPass ? "text" : "password"} name="password" label="Password" control={form.control} placeholder="••••••••" required />
+        {!props.defaultValues && <GInput.Form type={showPass ? "text" : "password"} name="password" label="Password" control={form.control} placeholder="••••••••" required />}
         <Team.Form control={form.control} name="teamId" label="Team Name" />
 
         <GInput.Form name="address" label="Address" control={form.control} placeholder="Present Address" />
@@ -102,7 +117,12 @@ const UserForm = (props: IProps) => {
             <GButton
               action="delete"
               type="button"
-            // onClick={handleDelete}
+              onClick={() => {
+                if (props.defaultValues?.id) {
+                  handleDelete(props.defaultValues?.id);
+                  toast.success("User deleted successful");
+                }
+              }}
             />
 
             <GButton

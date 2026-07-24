@@ -47,10 +47,10 @@ export default function RootLayout({ children }: Readonly<IProps>) {
       className={cn(
         "h-full",
         "antialiased",
+        "font-sans",
         salsa.variable,
         geistSans.variable,
         geistMono.variable,
-        "font-sans",
         notoSans.variable,
         playfairDisplayHeading.variable
       )}

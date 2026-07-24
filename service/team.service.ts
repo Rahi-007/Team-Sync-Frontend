@@ -12,7 +12,7 @@ export const teamApi = RTKApi.injectEndpoints({
       invalidatesTags: ["Team"],
     }),
 
-    updateTeam: build.mutation<ITeam, { id: string; data: Partial<IAddTeam> }>({
+    updateTeam: build.mutation<ITeam, { id: number; data: Partial<IAddTeam> }>({
       query: ({ id, data }) => ({
         url: `v1/team/${id}`,
         method: "PUT",
@@ -21,7 +21,7 @@ export const teamApi = RTKApi.injectEndpoints({
       invalidatesTags: ["Team"],
     }),
 
-    deleteTeam: build.mutation<void, string>({
+    deleteTeam: build.mutation<void, number>({
       query: id => ({
         url: `v1/team/${id}`,
         method: "DELETE",

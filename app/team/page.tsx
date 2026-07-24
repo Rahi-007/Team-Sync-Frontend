@@ -3,7 +3,7 @@
 import Container from "@/components/layouts/Container";
 import PageHeader from "@/components/layouts/PageHeader";
 import { useGetAllTeamsQuery } from "@/service/team.service";
-import UserTableSkeleton from "@/components/layouts/TableSkeleton";
+import TableSkeleton from "@/components/layouts/TableSkeleton";
 import TeamTable from "./TeamTable";
 
 const Page = () => {
@@ -19,7 +19,7 @@ const Page = () => {
 
       <div className="p-4">
         {isLoading ? (
-          <UserTableSkeleton />
+          <TableSkeleton />
         ) : (
           <TeamTable data={data ?? []} />
         )}

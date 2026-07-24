@@ -2,11 +2,11 @@
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { useAddTeamMutation } from "@/service/team.service";
+import { useAddTeamMutation, useDeleteTeamMutation, useUpdateTeamMutation } from "@/service/team.service";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { ITeam } from "@/interface/team.interface";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/components/ui/button";
+import GButton from "@/components/generic/GButton";
 import GInput from "@/components/generic/GInput";
 import User from "@/components/futures/User";
 import toast from "react-hot-toast";
@@ -20,11 +20,14 @@ const TeamSchema = z.object({
 type TeamFormValues = z.infer<typeof TeamSchema>;
 
 interface IProps {
+  title?: string;
   defaultValues?: ITeam;
 }
 
 const TeamForm = (props: IProps) => {
   const [addTeam] = useAddTeamMutation();
+  const [updateTeam] = useUpdateTeamMutation();
+  const [handleDelete] = useDeleteTeamMutation();
 
   const form = useForm<TeamFormValues>({
     resolver: zodResolver(TeamSchema),
@@ -37,9 +40,14 @@ const TeamForm = (props: IProps) => {
 
   const onSubmit = async (values: TeamFormValues) => {
     try {
-      await addTeam(values).unwrap();
-      form.reset();
-      toast.success("Team added successful");
+      if (props.defaultValues) {
+        await updateTeam({ id: props.defaultValues.id, data: values }).unwrap();
+        toast.success("Team updated successful");
+      } else {
+        await addTeam(values).unwrap();
+        form.reset();
+        toast.success("Team added successful");
+      }
     } catch (err) {
       const error = err as FetchBaseQueryError & {
         data?: { message?: string };
@@ -50,7 +58,7 @@ const TeamForm = (props: IProps) => {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="rounded-2xl border bg-white shadow-sm">
       <div className="border-b px-8 py-6">
-        <h2 className="text-2xl font-bold">Team Form</h2>
+        <h2 className="text-2xl font-bold">{props.title ?? "Team Form"}</h2>
       </div>
 
       <div className="grid gap-y-1 gap-x-4 px-8 py-6 md:grid-cols-2 xl:grid-cols-3">
@@ -61,14 +69,42 @@ const TeamForm = (props: IProps) => {
         </div>
       </div>
 
-      <div className="flex justify-end rounded-b-2xl gap-3 border-t bg-slate-50 px-8 py-5">
-        <Button variant="outline" type="reset" onClick={() => form.reset()}>
-          Cancel
-        </Button>
 
-        <Button className="min-w-36 bg-[#449690] hover:bg-[#449690]/80" disabled={form.formState.isSubmitting} type="submit">
-          {form.formState.isSubmitting ? "Creating..." : "Create Team"}
-        </Button>
+      <div className="flex justify-end rounded-b-2xl gap-3 border-t bg-slate-50 px-8 py-5">
+        {props.defaultValues ? (
+          <>
+            <GButton
+              action="delete"
+              type="button"
+              onClick={() => {
+                if (props.defaultValues?.id) {
+                  handleDelete(props.defaultValues?.id);
+                  toast.success("Team deleted successful");
+                }
+              }}
+            />
+
+            <GButton
+              action="update"
+              type="submit"
+              loading={form.formState.isSubmitting}
+            />
+          </>
+        ) : (
+          <>
+            <GButton
+              action="reset"
+              type="reset"
+              onClick={() => form.reset()}
+            />
+
+            <GButton
+              action="add"
+              type="submit"
+              loading={form.formState.isSubmitting}
+            />
+          </>
+        )}
       </div>
     </form>
   );

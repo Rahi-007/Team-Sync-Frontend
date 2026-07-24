@@ -1,22 +1,22 @@
 "use client";
 
 import { ColDef } from "ag-grid-community";
-import { IUser } from "@/interface/user.interface";
 import { SquarePen, Trash2 } from "lucide-react";
 import { ICellRendererParams } from "ag-grid-community";
+import { useDeleteClientMutation } from "@/service/client.service";
+import { IClient } from "@/interface/client.interface";
 import DataTable from "@/components/layouts/DataTable";
-import Link from "next/link";
-import { useDeleteUserMutation } from "@/service/user.service";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface IProps {
-    data: IUser[];
+    data: IClient[];
 }
 
-export default function UserTable({ data }: IProps) {
-    const [deleteUser] = useDeleteUserMutation();
+export default function ClientTable({ data }: IProps) {
+    const [deleteClient] = useDeleteClientMutation();
 
-    const columnDefs: ColDef<IUser>[] = [
+    const columnDefs: ColDef<IClient>[] = [
         {
             headerName: "ID",
             field: "id",
@@ -51,33 +51,6 @@ export default function UserTable({ data }: IProps) {
             flex: 1,
         },
         {
-            headerName: "Gender",
-            field: "gender",
-            width: 120,
-            valueFormatter: (params) => {
-                switch (params.value) {
-                    case 0:
-                        return "Male";
-                    case 1:
-                        return "Female";
-                    default:
-                        return "-";
-                }
-            },
-        },
-        {
-            headerName: "Team",
-            valueGetter: (params) => params.data?.team?.name ?? "-",
-            sortable: true,
-            filter: true,
-            flex: 1,
-        },
-        {
-            headerName: "RF ID",
-            field: "rfId",
-            flex: 1,
-        },
-        {
             headerName: "Created At",
             field: "createdAt",
             valueFormatter: (params) => {
@@ -102,10 +75,10 @@ export default function UserTable({ data }: IProps) {
                     Action
                 </div>
             ),
-            cellRenderer: (params: ICellRendererParams<IUser>) => (
+            cellRenderer: (params: ICellRendererParams<IClient>) => (
                 <div className="flex items-center justify-center gap-2 h-full">
                     <Link
-                        href={`/user/${params.data?.id}`}
+                        href={`/client/${params.data?.id}`}
                     >
                         <SquarePen className="h-4 w-4 hover:text-blue-600" />
                     </Link>
@@ -113,8 +86,8 @@ export default function UserTable({ data }: IProps) {
                     <button
                         onClick={() => {
                             if (params.data?.id) {
-                                deleteUser(params.data.id);
-                                toast.success("User deleted successful");
+                                deleteClient(params.data.id);
+                                toast.success("Client deleted successful");
                             }
                         }}                    >
                         <Trash2 className="h-4 w-4 text-red-500" />

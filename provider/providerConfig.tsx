@@ -10,10 +10,15 @@ export default function ProviderConfig({ children }: { children: React.ReactNode
       {/* <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange> */}
       {children}
       <Toaster
-        position="bottom-center"
-        reverseOrder={false}
-        gutter={8}
+        position="top-right"
+        // reverseOrder={false}
+        // gutter={8}
+        containerStyle={{
+          top: "65px",
+          left: 0,
+        }}
         toastOptions={{
+          className: "slide-toast",
           duration: 3000,
         }}
       />
