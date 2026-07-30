@@ -18,6 +18,7 @@ export interface IClient {
 export interface ISelectClient {
     id: string;
     name: string;
+    phone: string;
 }
 
 export interface IAddClient {

@@ -4,12 +4,12 @@ export default function TableSkeleton() {
 
       <div className="flex items-center justify-between pb-2 border-b gap-4">
         <div className="h-6 w-12 bg-muted rounded-md" />
+        {/* <div className="h-6 flex-1 bg-muted rounded-md" />
         <div className="h-6 flex-1 bg-muted rounded-md" />
         <div className="h-6 flex-1 bg-muted rounded-md" />
         <div className="h-6 flex-1 bg-muted rounded-md" />
         <div className="h-6 flex-1 bg-muted rounded-md" />
-        <div className="h-6 flex-1 bg-muted rounded-md" />
-        <div className="h-6 flex-1 bg-muted rounded-md" />
+        <div className="h-6 flex-1 bg-muted rounded-md" /> */}
         <div className="h-6 w-20 bg-muted rounded-md" />
       </div>
 

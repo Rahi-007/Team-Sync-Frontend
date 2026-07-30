@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAddUserMutation, useDeleteUserMutation, useUpdateUserMutation } from "@/service/user.service";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import type { IUser } from "@/interface/user.interface";
-import { Button } from "@/components/ui/button";
 import { enumToOptions } from "@/lib/utils";
 import { Gender } from "@/config/enum";
 import GInput from "@/components/generic/GInput";
@@ -117,10 +116,17 @@ const UserForm = (props: IProps) => {
             <GButton
               action="delete"
               type="button"
-              onClick={() => {
-                if (props.defaultValues?.id) {
-                  handleDelete(props.defaultValues?.id);
-                  toast.success("User deleted successful");
+              onClick={async () => {
+                if (!props.defaultValues?.id) return;
+
+                try {
+                  await handleDelete(props.defaultValues?.id).unwrap();
+                  toast.success("User deleted successfully");
+                } catch (err) {
+                  const error = err as FetchBaseQueryError & {
+                    data?: { message?: string };
+                  };
+                  toast.error(error.data?.message ?? "Something went wrong");
                 }
               }}
             />

@@ -4,10 +4,11 @@ import { ColDef } from "ag-grid-community";
 import { IUser } from "@/interface/user.interface";
 import { SquarePen, Trash2 } from "lucide-react";
 import { ICellRendererParams } from "ag-grid-community";
-import DataTable from "@/components/layouts/DataTable";
-import Link from "next/link";
 import { useDeleteUserMutation } from "@/service/user.service";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import DataTable from "@/components/layouts/DataTable";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 interface IProps {
     data: IUser[];
@@ -103,7 +104,7 @@ export default function UserTable({ data }: IProps) {
                 </div>
             ),
             cellRenderer: (params: ICellRendererParams<IUser>) => (
-                <div className="flex items-center justify-center gap-2 h-full">
+                <div className="flex items-center justify-center gap-2 h-6">
                     <Link
                         href={`/user/${params.data?.id}`}
                     >
@@ -111,12 +112,20 @@ export default function UserTable({ data }: IProps) {
                     </Link>
 
                     <button
-                        onClick={() => {
-                            if (params.data?.id) {
-                                deleteUser(params.data.id);
-                                toast.success("User deleted successful");
+                        onClick={async () => {
+                            if (!params.data?.id) return;
+
+                            try {
+                                await deleteUser(params.data.id).unwrap();
+                                toast.success("User deleted successfully");
+                            } catch (err) {
+                                const error = err as FetchBaseQueryError & {
+                                    data?: { message?: string };
+                                };
+                                toast.error(error.data?.message ?? "Something went wrong");
                             }
-                        }}                    >
+                        }}
+                    >
                         <Trash2 className="h-4 w-4 text-red-500" />
                     </button>
                 </div>

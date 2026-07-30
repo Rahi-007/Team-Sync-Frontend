@@ -4,6 +4,7 @@ import { SquarePen, Trash2 } from "lucide-react";
 import { ITeam } from "@/interface/team.interface";
 import { useDeleteTeamMutation } from "@/service/team.service";
 import { ColDef, ICellRendererParams } from "ag-grid-community";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import DataTable from "@/components/layouts/DataTable";
 import toast from "react-hot-toast";
 import Link from "next/link";
@@ -75,7 +76,7 @@ export default function TeamTable({ data }: IProps) {
                 </div>
             ),
             cellRenderer: (params: ICellRendererParams<ITeam>) => (
-                <div className="flex items-center justify-center gap-2 h-full">
+                <div className="flex items-center justify-center gap-2 h-6">
                     <Link
                         href={`/team/${params.data?.id}`}
                     >
@@ -83,12 +84,20 @@ export default function TeamTable({ data }: IProps) {
                     </Link>
 
                     <button
-                        onClick={() => {
-                            if (params.data?.id) {
-                                handleDelete(params.data.id);
-                                toast.success("Team deleted successful");
+                        onClick={async () => {
+                            if (!params.data?.id) return;
+
+                            try {
+                                await handleDelete(params.data.id).unwrap();
+                                toast.success("Team deleted successfully");
+                            } catch (err) {
+                                const error = err as FetchBaseQueryError & {
+                                    data?: { message?: string };
+                                };
+                                toast.error(error.data?.message ?? "Something went wrong");
                             }
-                        }}                    >
+                        }}
+                    >
                         <Trash2 className="h-4 w-4 text-red-500" />
                     </button>
                 </div>

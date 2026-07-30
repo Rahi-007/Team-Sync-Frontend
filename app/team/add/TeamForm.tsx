@@ -76,10 +76,17 @@ const TeamForm = (props: IProps) => {
             <GButton
               action="delete"
               type="button"
-              onClick={() => {
-                if (props.defaultValues?.id) {
-                  handleDelete(props.defaultValues?.id);
-                  toast.success("Team deleted successful");
+              onClick={async () => {
+                if (!props.defaultValues?.id) return;
+
+                try {
+                  await handleDelete(props.defaultValues?.id).unwrap();
+                  toast.success("Team deleted successfully");
+                } catch (err) {
+                  const error = err as FetchBaseQueryError & {
+                    data?: { message?: string };
+                  };
+                  toast.error(error.data?.message ?? "Something went wrong");
                 }
               }}
             />

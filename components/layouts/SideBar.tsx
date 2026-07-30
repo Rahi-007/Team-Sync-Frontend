@@ -42,7 +42,7 @@ const MenuItems = ({ title, icon: Icon, link, active, subItem, onToggle, open, s
                 {subItem && (
                     <button
                         onClick={onToggle}
-                        className="p-2 hover:bg-black/10 rounded-r-lg transition"
+                        className="p-2 hover:bg-black/10 transition"
                     >
                         <ChevronDown
                             size={18}
@@ -134,7 +134,7 @@ const SideBar = ({ className }: IProps) => {
 
     return (
         <div
-            className="relative min-h-[95.5vh] border-r border-gray-300 bg-[#449690]"
+            className={cn("relative min-h-[95.5vh] border-r border-gray-300 bg-[#449690]", className)}
             style={{ width }}
         >
             <h1 style={{ fontFamily: "var(--font-salsa)" }} className="pt-1 pb-2 px-4 text-sm underline">

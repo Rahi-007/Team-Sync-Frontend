@@ -36,8 +36,11 @@ export default function DataTable<T>({
   return (
     <div style={{ height }}>
       <AgGridReact
-        animateRows
         pagination
+        animateRows
+        ensureDomOrder
+        suppressCellFocus
+        enableCellTextSelection
         paginationPageSize={20}
         paginationPageSizeSelector={[20, 30, 50, 100, 500]}
         rowSelection={{ mode: "multiRow" }}

@@ -1,0 +1,37 @@
+"use client";
+
+import { useParams } from "next/navigation";
+import { useGetProjectByIdQuery } from "@/service/project.service";
+import FormSkeleton from "@/components/layouts/FormSkeleton";
+import PageHeader from "@/components/layouts/PageHeader";
+import Container from "@/components/layouts/Container";
+import ProjectForm from "../add/ProjectForm";
+
+const Page = () => {
+  const { projectId } = useParams<{ projectId: string }>();
+  const { data: project, isLoading } = useGetProjectByIdQuery(Number(projectId));
+
+  return (
+    <Container>
+      <PageHeader
+        title="Edit Project"
+        description="Update project information and permissions."
+        breadcrumbs={[
+          { label: "Dashboard", href: "/" },
+          { label: "Project", href: "/project" },
+          { label: "Edit Project" },
+        ]}
+      />
+
+      <div className="w-full mx-auto p-4">
+        {isLoading ? (
+          <FormSkeleton field={12} />
+        ) : (
+          <ProjectForm defaultValues={project} title={project?.name} />
+        )}
+      </div>
+    </Container>
+  );
+};
+
+export default Page;

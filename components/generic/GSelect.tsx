@@ -103,7 +103,7 @@ function FormSelect<T extends FieldValues>({
 
             {/* Dropdown Content */}
             {isOpen && (
-              <div className="absolute left-0 right-0 top-[calc(100%-4px)] z-50 mt-1 max-h-60 w-full overflow-hidden rounded-md bg-white shadow-lg border border-gray-200 flex flex-col">
+              <div className="absolute left-0 right-0 top-[calc(100%-4px)] z-50 mt-1 max-h-60 w-full overflow-hidden rounded-b-md bg-white shadow-lg border border-gray-200 flex flex-col">
                 {/* Search Input Box */}
                 <div className="flex items-center border-b border-gray-100 px-3 bg-gray-50">
                   <Search className="h-4 w-4 text-gray-400 shrink-0" />

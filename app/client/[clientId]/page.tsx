@@ -25,7 +25,7 @@ const Page = () => {
 
       <div className="w-full mx-auto p-4">
         {isLoading ? (
-          <FormSkeleton field={3} />
+          <FormSkeleton field={3} narration={true} />
         ) : (
           <ClientForm defaultValues={user} title={`${user?.firstName} ${user?.lastName ?? ""}`} />
         )}

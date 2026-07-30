@@ -5,29 +5,29 @@ export interface IProject {
     name: string;
     businessUnit: BusinessUnit;
     client: {
-        id: number;
+        id: string;
         name: string;
     };
-    briefCode: string;
+    briefCode?: string;
     workType: WorkType;
-    subType: SubType;
+    subType?: SubType;
     quantity: number;
     submitDate: Date;
     submitCode: string;
     status: ProjectStatus;
     assign: {
-        id: number;
+        id: string;
         name: string;
     }
     link?: string;
     createdAt: Date;
     updatedAt?: Date;
     createdBy: {
-        id: number;
+        id: string;
         name: string;
     };
     updatedABy?: {
-        id: number;
+        id: string;
         name: string;
     };
 }
@@ -35,14 +35,19 @@ export interface IProject {
 export interface IAddProject {
     name: string;
     businessUnit: BusinessUnit;
-    client: number;
-    briefCode: string;
+    client: string;
+    briefCode?: string;
     workType: WorkType;
-    subType: SubType;
+    subType?: SubType;
     quantity: number;
     submitDate: Date;
     submitCode: string;
     status: ProjectStatus;
-    assign: number;
+    assign: string;
     link?: string;
+}
+
+export interface ISelectProject {
+    id: number;
+    name: string;
 }
