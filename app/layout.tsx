@@ -32,8 +32,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Viva Soft",
-  description: "Team management software distribute the task",
+  title: "UnityOps Software",
+  description: "Team management software distribute the task and Role based Access",
 };
 
 interface IProps {

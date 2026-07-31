@@ -34,7 +34,7 @@ const Header = ({ className }: IProps) => {
     return (
         <div className={cn("h-[4.5vh] w-full bg-[#449690] flex justify-between items-center border-b border-gray-300", className)}>
             <div className="">
-                <h1 className="px-4 text-xl font-semibold">Viva Software Limited</h1>  {/* Seema&apos;s Cloud Talk */}
+                <h1 className="px-4 text-xl font-semibold">UnityOps Software Limited</h1>  {/* Seema&apos;s Cloud Talk */}
             </div>
             <div ref={ref} className="relative">
                 <button
